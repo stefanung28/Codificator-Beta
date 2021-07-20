@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<body>
+CHEIE: <input type="text" id="key">
+<br><br>
+MESAJ: <input type="text" id="myText"><br>
+	   <input type="checkbox" id = "codificare" >CODIFICARE
+       <input type="checkbox" id = "decodificare" >DECODIFICARE
+       <br>
+       <button onclick="GenerateKey()">GENERATE KEY</button>
+       <button onclick="ObtineID()">START</button>
+<br>
+<p id = "demo">salut </p>
+<script>
+var indici = new Array(300);
+function GenerateKey(){
+	document.getElementById("key").value = MAKE_THE_KEY();
+}
+function STATUS_CHEIE(){
+	var cheie = document.getElementById("key").value;
+    if(cheie == "" && cheie.length < 93) 
+      return false;
+return true;
+}
+function MAKE_THE_KEY(cod_cheie){
+	cod_cheie = "";
+	var v = new Array(93);
+    var n = -1;
+    var z = new Array(200);
+    for(var i = 33; i<127; ++i)
+    	v[++n] = i;
+        shuffle(v);
+    	for(var i = 0; i<=n; ++i){
+        	cod_cheie+=String.fromCharCode(v[i]);
+            indici[cod_cheie[i]] = i;
+            }
+	//return shuffled;
+    
+    return cod_cheie;
+}
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}
+function ObtineID() {
+ var INPUT = document.getElementById("myText").value;
+ var check_Codificare = document.getElementById("codificare");
+ var check_Decodificare = document.getElementById("decodificare");
+ var LENGTH = INPUT.length;
+ var OUTPUT;
+ var COD_KEY;
+ 
+ /// <VERIFICARE CASUTE>
+ if((check_Codificare.checked == false && check_Decodificare.checked == false) ||(check_Codificare.checked == true && check_Decodificare.checked == true))
+ {
+ 	window.alert("BIFEAZA DOAR O CASUTA !");
+ }
+ else if(check_Codificare.checked == true && STATUS_CHEIE() == 1)
+ {
+ 	 COD_KEY = document.getElementById("key").value;
+     //alert(COD_KEY);
+     OUTPUT = CODIFICARE(LENGTH,INPUT,COD_KEY,OUTPUT);
+ 	 console.log("CODIFICARE:    " + OUTPUT);
+ }
+ else if(check_Decodificare.checked == true && STATUS_CHEIE() == 1){
+ 	COD_KEY = document.getElementById("key").value;
+ 	OUTPUT = DECODIFICARE(LENGTH,INPUT,COD_KEY,OUTPUT);
+ 	console.log("DECODIFICARE:    " + OUTPUT);
+ }
+ else window.alert("NU AI CHEIA INTRODUS/GENERAT CHEIA !");
+}
+/// </VERIFICARE CASUTE>
+
+
+function CODIFICARE(n,input,cod_key,output){
+    output = "";
+    for(var i = 0; i < n; ++i){
+    var z = parseInt(input.charCodeAt(i));
+             //window.alert(z-33);
+             //window.alert(cod_key[z]);
+             if(input[i] == " ")
+             output +=" ";
+             else{
+            // window.alert(indici['Q']);
+             output +=cod_key[z-33];
+             }
+            }
+        return output;
+}
+function DECODIFICARE(n,input,cod_key,output){
+    output = "";
+    for(var i = 0; i < n; ++i){
+             if(input[i] == " ")
+             output +=" ";
+             else{
+             for(var j = 0; j<95; ++j)
+             	if(cod_key[j] == input[i])
+             		output +=String.fromCharCode(j+33);
+            }
+            }
+        return output;
+}
+function codific(c) {
+    return String.fromCharCode(c.charCodeAt(0) + 1);
+}
+function decodific(c){
+	 return String.fromCharCode(c.charCodeAt(0) );
+}
+
+
+
+
+</script> 
+
+</body>
+</html>
