@@ -1,0 +1,2 @@
+# Codificator-Beta
+ The encoder works on the basis of a public key consisting of 94 ASCII characters. The key is added to a vector and mixed. The encoding of the message is done by identifying the character in the message with that in the randomized vector. If the characters are equal, then the result receives the character from the +33 position of the key. Decoding is done the same way, but instead of increasing the position by 33, it decreases.
